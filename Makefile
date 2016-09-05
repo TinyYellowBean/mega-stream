@@ -22,7 +22,7 @@ CC = icc
 CFLAGS = -std=c99 -O3
 
 FTN = ifort
-FFLAGS = -O3
+FFLAGS = -O3 -xHost -align array256byte
 
 OMP = -qopenmp
 
