@@ -35,7 +35,7 @@ PROGRAM megastreamftn
  
   INTEGER :: L_size, S_size
 
-  INTEGER :: i, t, ntimes = 10
+  INTEGER :: i, j, t, ntimes = 10
 
   DOUBLE PRECISION :: tick, tock
 
@@ -100,7 +100,12 @@ PROGRAM megastreamftn
     !-----------
     !$OMP PARALLEL DO
     DO i = 1, L_size
-      r(:,i) = q(:,i) + a(:)*x(:) + b(:)*y(:) + c(:)*z(:)
+!DIR$ vector nontemporal
+!DIR$ vector aligned
+!DIR$ omp simd
+      DO j = 1, S_size
+        r(j,i) = q(j,i) + a(j)*x(j) + b(j)*y(j) + c(j)*z(j)
+      END DO
     END DO
     !$OMP END PARALLEL DO
 
